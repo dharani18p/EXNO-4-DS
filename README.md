@@ -1,210 +1,175 @@
-## EXNO-3-DS
-
+# EXNO:4-DS
 # AIM:
-To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
+To read the given data and perform Feature Scaling and Feature Selection process and save the
+data to a file.
 
 # ALGORITHM:
 STEP 1:Read the given Data.
 STEP 2:Clean the Data Set using Data Cleaning Process.
-STEP 3:Apply Feature Encoding for the feature in the data set.
-STEP 4:Apply Feature Transformation for the feature in the data set.
+STEP 3:Apply Feature Scaling for the feature in the data set.
+STEP 4:Apply Feature Selection for the feature in the data set.
 STEP 5:Save the data to the file.
 
-# FEATURE ENCODING:
-1. Ordinal Encoding
-An ordinal encoding involves mapping each unique label to an integer value. This type of encoding is really only appropriate if there is a known relationship between the categories. This relationship does exist for some of the variables in our dataset, and ideally, this should be harnessed when preparing the data.
-2. Label Encoding
-Label encoding is a simple and straight forward approach. This converts each value in a categorical column into a numerical value. Each value in a categorical column is called Label.
-3. Binary Encoding
-Binary encoding converts a category into binary digits. Each binary digit creates one feature column. If there are n unique categories, then binary encoding results in the only log(base 2)ⁿ features.
-4. One Hot Encoding
-We use this categorical data encoding technique when the features are nominal(do not have any order). In one hot encoding, for each level of a categorical feature, we create a new variable. Each category is mapped with a binary variable containing either 0 or 1. Here, 0 represents the absence, and 1 represents the presence of that category.
+# FEATURE SCALING:
+1. Standard Scaler: It is also called Z-score normalization. It calculates the z-score of each value and replaces the value with the calculated Z-score. The features are then rescaled with x̄ =0 and σ=1
+2. MinMaxScaler: It is also referred to as Normalization. The features are scaled between 0 and 1. Here, the mean value remains same as in Standardization, that is,0.
+3. Maximum absolute scaling: Maximum absolute scaling scales the data to its maximum value; that is,it divides every observation by the maximum value of the variable.The result of the preceding transformation is a distribution in which the values vary approximately within the range of -1 to 1.
+4. RobustScaler: RobustScaler transforms the feature vector by subtracting the median and then dividing by the interquartile range (75% value — 25% value).
 
-# Methods Used for Data Transformation:
-  # 1. FUNCTION TRANSFORMATION
-• Log Transformation
-• Reciprocal Transformation
-• Square Root Transformation
-• Square Transformation
-  # 2. POWER TRANSFORMATION
-• Boxcox method
-• Yeojohnson method
+# FEATURE SELECTION:
+Feature selection is to find the best set of features that allows one to build useful models. Selecting the best features helps the model to perform well.
+The feature selection techniques used are:
+1.Filter Method
+2.Wrapper Method
+3.Embedded Method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
 ```
 import pandas as pd
-df=pd.read_csv("/content/Encoding Data.csv")
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/aae763cd-3117-4c8e-bf2c-c652a5541541)
-
-```
-from sklearn.preprocessing import LabelEncoder,OrdinalEncoder
-pm=['Hot','Warm','Cold']
-e1=OrdinalEncoder(categories=[pm])
-e1.fit_transform(df[["ord_2"]])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/b8e416e0-1631-4afc-a303-fba2a3a1febd)
-
-```
-df['bo2']=e1.fit_transform(df[["ord_2"]])
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/2cbc1dc1-5234-45a6-a925-840d7e0baee2)
-
-```
-le=LabelEncoder()
-dfc=df.copy()
-dfc['ord_2']=le.fit_transform(dfc['ord_2'])
-dfc
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/12ce4365-d23e-4986-941c-b26b61a6bdd7)
-
-```
-from sklearn.preprocessing import OneHotEncoder
-ohe=OneHotEncoder(sparse=False)
-df2=df.copy()
-enc=pd.DataFrame(ohe.fit_transform(df2[["nom_0"]]))
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/d6b8bdc9-91e6-41d6-b852-e7c343cc096a)
-
-```
-df2=pd.concat([df2,enc],axis=1)
-df2
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/df24a068-454c-426e-b5c6-77eeb69e719b)
-
-```
-pd.get_dummies(df2,columns=["nom_0"])
-```
-
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/54fdc26f-c5e7-4026-a48d-707aee14faab)
-
-```
-pip install --upgrade category_encoders
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/9deca6ac-1360-4800-93df-d673c5ccd415)
-
-```
-from category_encoders import BinaryEncoder
-df=pd.read_csv("/content/data.csv")
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/4c46dc34-429c-489c-bf3a-ce2c62d0fe24)
-
-```
-be=BinaryEncoder()
-nd=be.fit_transform(df['Ord_2'])
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/7e5f8d02-39f8-429b-a1a6-8223f63cd417)
-```
-dfb=pd.concat([df,nd],axis=1)
-dfb
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/24b9257d-f1a0-4284-9cfe-bcebe6f13261)
-
-```
-from category_encoders import TargetEncoder
-te=TargetEncoder()
-CC=df.copy()
-new=te.fit_transform(X=CC["City"],y=CC["Target"])
-CC=pd.concat([CC,new],axis=1)
-CC
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/a7944f5e-dac7-41e6-a061-f1326ce96f1c)
-
-```
-import pandas as pd
-from scipy import stats
 import numpy as np
-df=pd.read_csv("/content/Data_to_Transform.csv")
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/29e2129f-10e1-448e-9741-1580cbf49b64)
-
-```
-df.skew()
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/bdc4afd2-b0f2-4306-b4c2-66b1b369c7f7)
-
-```
-np.log(df["Highly Positive Skew"])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/b78a4f39-f466-46d9-a565-f0e8a8e1a891)
-
-```
-np.reciprocal(df["Moderate Positive Skew"])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/2b4156b5-dca8-4763-b2d1-384242df4b23)
-
-```
-np.sqrt(df["Highly Positive Skew"])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/f1d49252-4997-4dc3-b905-438a91af37a8)
-
-```
-np.square(df["Highly Positive Skew"])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/01c8afd9-3287-4c58-977f-c43db1aba7ff)
-
-```
-df["Highly Positive Skew_boxcox"], parameters=stats.boxcox(df["Highly Positive Skew"])
-df
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/1f345c86-c0f1-4a7c-99c7-9d7f7ee24ce8)
-
-```
-df.skew()
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/a1fcc12d-2f68-4951-b8ba-ce5a13544d23)
-
-```
-df["Highly Negative Skew_yeojohnson"],parameters=stats.yeojohnson(df["Highly Negative Skew"])
-```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/d84c61ec-dd51-45ae-a2d1-0b7272d8e630)
-
-```
 import seaborn as sns
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
-sm.qqplot(df["Moderate Negative Skew"],line='45')
-plt.show()
+
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+data=pd.read_csv("/content/income(1) (1).csv",na_values=[ " ?"])
+data
 ```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/09a83e2b-950f-463f-9e97-bea2426780be)
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/863c7d4b-6afe-46ce-8f90-1a335ca2bbbd)
 
 ```
-sm.qqplot(np.reciprocal(df["Moderate Negative Skew"]),line='45')
-plt.show()
+data.isnull().sum()
 ```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/9f8a1915-eeba-4959-a64f-2e469c1a6894)
-
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/29db7509-42c2-49f4-a603-fbc732f2d11a)
 ```
-from sklearn.preprocessing import QuantileTransformer
-qt=QuantileTransformer(output_distribution='normal',n_quantiles=891)
-
-df["Moderate Negative Skew"]=qt.fit_transform(df[["Moderate Negative Skew"]])
-
-sm.qqplot(df["Moderate Negative Skew"],line='45')
-plt.show()
+missing=data[data.isnull().any(axis=1)]
+missing
 ```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/e3338bb1-b492-4cd5-b32b-02e2430bc9da)
-
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/64d94308-321c-4500-bf44-a1449113dda3)
 ```
-df["Highly Negative Skew_1"]=qt.fit_transform(df[["Highly Negative Skew"]])
-sm.qqplot(df["Highly Negative Skew"],line='45')
-plt.show()
+data2=data.dropna(axis=0)
+data2
 ```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/b732faef-2b5a-4265-a643-f86e382bbc04)
-
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/1a10225b-ad1f-4340-b0f9-ac2c10ec87b8)
 ```
-sm.qqplot(df["Highly Negative Skew_1"],line='45')
-plt.show()
+sal=data["SalStat"]
+
+data2["SalStat"]=data["SalStat"].map({' less than or equal to 50,000':0,' greater than 50,000':1})
+print(data2['SalStat'])
 ```
-![image](https://github.com/svarsha220/EXNO-3-DS/assets/127709117/3f12d222-7685-4aa9-8288-c1717a69c014)
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/1128fc3a-1b04-45e7-9a76-7c6a9402c14c)
+```
+sal2=data2['SalStat']
 
+dfs=pd.concat([sal,sal2],axis=1)
+dfs
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/ecc8c9eb-2393-4f20-84a6-1fc4432f26e2)
+```
+data2
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/450087c6-e55c-4e07-be89-c98015f9d699)
+```
+new_data=pd.get_dummies(data2, drop_first=True)
+new_data
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/f7b752aa-d11f-4367-a9a1-0a8a3b20281d)
+```
+columns_list=list(new_data.columns)
+print(columns_list)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/2bb23f59-f78a-4228-9b42-380de6bc03d4)
+```
+features=list(set(columns_list)-set(['SalStat']))
+print(features)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/8bdfa286-419d-46ee-8268-fd836dfbfaa1)
+```
+y=new_data['SalStat'].values
+print(y)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/967b3c59-2857-4b58-938b-d37c22ca4137)
+```
+x=new_data[features].values
+print(x)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/ce17c263-a6f4-4dd9-8f6e-fc42f293b823)
+```
+train_x,test_x,train_y,test_y=train_test_split(x,y,test_size=0.3,random_state=0)
 
+KNN_classifier=KNeighborsClassifier(n_neighbors = 5)
+
+KNN_classifier.fit(train_x,train_y)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/6fba7d28-0c9e-4e64-ac8a-01a57eada851)
+```
+prediction=KNN_classifier.predict(test_x)
+confusionMatrix=confusion_matrix(test_y, prediction)
+print(confusionMatrix)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/2e35f25a-0ab1-41d8-a27a-d263acb1112d)
+```
+accuracy_score=accuracy_score(test_y,prediction)
+print(accuracy_score)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/287907b0-3f66-4984-84c4-30cff447f90b)
+```
+print("Misclassified Samples : %d" % (test_y !=prediction).sum())
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/832b431a-457a-41f5-93d6-493b679866c7)
+```
+data.shape
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/23cba83a-2857-41c2-9af7-fd8125d42f25)
+```
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, mutual_info_classif, f_classif
+data={
+    'Feature1': [1,2,3,4,5],
+    'Feature2': ['A','B','C','A','B'],
+    'Feature3': [0,1,1,0,1],
+    'Target'  : [0,1,1,0,1]
+}
+df=pd.DataFrame(data)
+x=df[['Feature1','Feature3']]
+y=df[['Target']]
+
+selector=SelectKBest(score_func=mutual_info_classif,k=1)
+x_new=selector.fit_transform(x,y)
+
+selected_feature_indices=selector.get_support(indices=True)
+
+selected_features=x.columns[selected_feature_indices]
+print("Selected Features:")
+print(selected_features)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/b1099868-4023-4d86-81c1-642c9292186d)
+```
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2_contingency
+
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/a9f06171-688a-48fa-91d2-9089306ec0d3)
+```
+tips.time.unique()
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/a42adbd0-a4dc-4791-8790-e16e7e59543e)
+```
+contingency_table=pd.crosstab(tips['sex'],tips['time'])
+print(contingency_table)
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/dad8a3f5-6390-4599-8579-ddcfa5948096)
+```
+chi2,p,_,_=chi2_contingency(contingency_table)
+print(f"Chi-Square Statistics: {chi2}")
+print(f"P-Value: {p}")
+```
+![image](https://github.com/svarsha220/EXNO-4-DS/assets/127709117/62319ba3-6622-4607-87a8-c0405591f98c)
 # RESULT:
-       Thus the given data, Feature Encoding, Transformation process and save the data to a file was performed successfully.
-       
+Thus, Feature selection and Feature scaling has been used and executed in the given dataset.
+
